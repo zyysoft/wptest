@@ -1,0 +1,28 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/addCgi/addCgi",
+    "pages/search/search"
+  ],
+  "window":{
+    "backgroundColor":"#F6F6F6",
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "ITHup",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh":true
+  },
+    "tabBar": {
+      "list": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "首页"
+        },
+        {
+          "pagePath": "pages/addCgi/addCgi",
+          "text": "我的"
+        }
+      ]
+    },
+    "debug": true
+}

@@ -1,0 +1,4 @@
+<view class='search'>
+            <input type='text' placeholder='ITHup' confirm-type='search' value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+            <image class="" src='./search.png' bindtap='query'></image>
+</view>
