@@ -44,6 +44,8 @@ Page({
 
   listTopics:function(type){
     var that = this;
+    // console.log(that.data.pageSize);
+    // console.log(that.data.pageNumber);
     wx.request({
       url: 'https://na.nonobank.com/bilog-pc/ithup/list/topic?typeName=' + that.data.currentTab + '&pageSize=' + that.data.pageSize + '&pageNumber=' + that.data.pageNumber, //请求接口的url
       method: 'GET', //请求方式
@@ -96,7 +98,7 @@ Page({
 
   onPullDownRefresh:function(e){
     this.setData({
-      pageNumber: 1
+      pageNumber: 1,
     }),
     this.listTopics();
     wx.hideNavigationBarLoading();
@@ -131,6 +133,7 @@ Page({
       that.setData({
         currentTab: e.target.dataset.current,
         contents:[],
+        pageNumber:1,
       });
       /**
       wx.showLoading({ //显示消息提示框  此处是提升用户体验的作用
