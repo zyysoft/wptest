@@ -1,120 +1,54 @@
 <!--index.wxml-->
-<view class="container">
-  <view calss='search' style='position:fixed;'>
-    <view class='page_row' >
-      <view class="df search_arr">
-              <icon class="searchcion" size='20' type='search'></icon>
-              <input class="" placeholder="ITHup" bindfocus="toSearchView"/>
-      </view>
-  </view>
-</view>
-<swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">  
-    <block wx:for="{{movies}}" wx:for-index="index">  
-      <swiper-item>  
-        <image src="{{item.url}}" class="slide-image" mode="aspectFill"/>  
-      </swiper-item>  
-    </block>  
-  </swiper>
-
-    <!-- 用户登录测试 -->
-    <!--
-    <view class="userinfo">
-        <image
-            class="userinfo-avatar"
-            src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}"
-            background-size="cover"></image>
-        <view>
-            <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击测试登录接口</button>
-            <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
-        </view>
+<view calss='search'>
+    <view class="df search_arr">
+        <icon class="searchcion" size='15' type='search'></icon>
+        <input placeholder="搜索ITHup" bindfocus="toSearchView"/>
     </view>
--->
+</view>
+<swiper class="banner" indicator-dots="true" indicator-active-color="#D6BA8C"
+  autoplay="true" interval="5000" duration="1000">  
+    <view style='display:block;margin-right: 10px;' wx:for="{{banners}}" wx:for-index="index">  
+      <swiper-item>  
+        <image src="{{item.url}}" data-index='{{index}}' data-url="{{item.url}}" class="border-radius:5px" style='border-radius:8px;'
+         mode="aspectFill" bindtap='bannerClick'/>
+      </swiper-item>  
+    </view>
+</swiper>
 
 <view >
-    <scroll-view scroll-x="true" class='{{isFixTab?"tab-h-fix":"tab-h"}}'
-     scroll-left="{{scrollLeft}}"  >
-        <view class="tab-item {{currentTab==0?'active':''}}"  data-current="0" bindtap="swichNav">健康</view>
-        <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">情感</view>
-        <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">职场</view>
-        <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="swichNav">育儿</view>
-        <view class="tab-item {{currentTab==4?'active':''}}" data-current="4" bindtap="swichNav">纠纷</view>
-        <view class="tab-item {{currentTab==5?'active':''}}" data-current="5" bindtap="swichNav">青葱</view>
-        <view class="tab-item {{currentTab==6?'active':''}}" data-current="6" bindtap="swichNav">全部</view>
-        <view class="tab-item {{currentTab==7?'active':''}}" data-current="7" bindtap="swichNav">其他</view>
+    <scroll-view scroll-x="true" scroll-y="true" class="tab-h;{{isFixTab ? 'tab-h-fix' : ''}}" >
+        <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">微信公众号</view>
+        <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">微信小程序</view>
+        <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">极客时间</view>
+        <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="swichNav">知识星球</view>
     </scroll-view>
-    <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab"
-     style="height:{{winHeight}}rpx">
-        <swiper-item wx:for="{{[0,1,2,3,4,5,6,7]}}">
-            <scroll-view scroll-y="true" class="scoll-h" >
-                <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
-                    <view class="item-ans">
-                        <view class="avatar">
-                            <image class="img" src="http://ookzqad11.bkt.clouddn.com/avatar.png"></image>
-                        </view>
-                        <view class="expertInfo">
-                            <view class="name">欢颜</view>
-                            <view class="tag">知名情感博主</view>
-                            <view class="answerHistory">134个回答，2234人听过 </view>
-                        </view>
-                        <navigator url="/pages/askExpert/expertDetail" class="askBtn">问TA</navigator> 
-                    </view>
-                </block>
-            </scroll-view>
-        </swiper-item>
-    </swiper>
 </view>
-
-
-    <!-- 上传图片测试 -->
-    <view class="uploader">
-        <view class="uploader-text" bindtap="doUpload">
-            <text>上传图片</text>
+<view wx:for="{{contents}}"  class="tab-content">
+        <view class='tab-item-top;' data-index='{{index}}' data-content='{{item}}' bindtap='toContentDetail'>
+          <view class='tab-item-img' >
+            <image src="{{item.imageUrl}}" data-index='{{index}}' data-url="{{item.imageUrl}}" mode="aspectFit" style='width:60px;height:60px;border-radius: 30px;' />  
+          </view>
+          <view class='tab-item-text;'> 
+            <!--
+            <view style='display:inline;padding:2px 4px;font-size:10px;border-radius:2px;color: rgb(214, 186, 140); background: rgba(214, 186, 140, 0.2);'>
+            -->
+            <view style='display:inline;padding:2px 4px;font-size:10px;color: rgb(214, 186, 140);'>
+              {{item.typeName}}
+            </view>
+            <view style='font-size:16px;font-weight:400;margin-top:4px;'>
+               {{item.contentName}}
+            </view>
+            <view style='display:flex;flex-direction:row;margin-top:4px;font-size:12px;height:18px;'>
+                <view style='color:rgb(170, 170, 170);'>
+                  {{item.contentSign}}
+                </view>
+                <view style='margin-left: 13px;color:rgb(242, 129, 129);border-color:rgb(242, 129, 129);border:.5px solid rgb(214, 186, 140);border-radius:4px;'>
+                  {{item.contentCnt}}
+                </view>
+            </view>
+          </view>
         </view>
-        <view class="uploader-container" wx:if="{{imgUrl}}">
-            <image
-                class="uploader-image"
-                src="{{imgUrl}}"
-                mode="aspectFit"
-                bindtap="previewImg"
-            ></image>
+        <view class='tab-item-bottom;'style='white-space: nowrap;display: block;overflow: hidden;text-overflow: ellipsis;-o-text-overflow: ellipsis;text-decoration: none;'>
+            {{item.contentNotes}}
         </view>
-    </view>
-
-
-    <!-- 上传图片测试 -->
-    <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
-      <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
-      <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
-      <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
-      <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
-      <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
-      <view class="uploader">
-        <navigator url="../addCgi/addCgi" open-type="navigate" class="uploader-text">
-            <text>快速增加 CGI</text>
-        </navigator>
-    </view>
 </view>

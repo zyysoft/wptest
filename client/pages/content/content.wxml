@@ -1,0 +1,31 @@
+<view class='tab-item-top;'>
+          <view class='tab-item-img' >
+            <image src="{{item.imageUrl}}" data-index='{{index}}' data-url="{{item.imageUrl}}" mode="aspectFit" style='width:60px;height:60px;border-radius: 30px;' />  
+          </view>
+          <view class='tab-item-text;'> 
+            <!--
+            <view style='display:inline;padding:2px 4px;font-size:10px;border-radius:2px;color: rgb(214, 186, 140); background: rgba(214, 186, 140, 0.2);'>
+            -->
+            <view style='display:inline;padding:2px 4px;font-size:10px;color: rgb(214, 186, 140);'>
+              {{item.typeName}}
+            </view>
+            <view style='font-size:16px;font-weight:400;margin-top:4px;'>
+               {{item.contentName}}
+            </view>
+            <view style='display:flex;flex-direction:row;margin-top:4px;font-size:12px;height:18px;'>
+                <view style='color:rgb(170, 170, 170);'>
+                  {{item.contentSign}}
+                </view>
+                <view style='margin-left: 13px;color:rgb(242, 129, 129);border-color:rgb(242, 129, 129);border:.5px solid rgb(214, 186, 140);border-radius:4px;'>
+                  {{item.contentCnt}}
+                </view>
+            </view>
+          </view>
+        </view>
+<view class='tab-item-bottom;'>
+    {{item.contentNotes}}
+</view>
+<view style='display:flex;padding-top:13px;justify-content: center;align-items:center;'>
+  <image style='height:24px;width:24px'  src="/images/ico_ewm.png"/>
+  <image style='height:104px;width:104px'  src="{{item.qrcodeImage}}" data-src="{{item.qrcodeImage}}" bindtap="previewImage"/>
+</view>

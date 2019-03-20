@@ -5,69 +5,157 @@ var util = require('../../utils/util.js')
 
 Page({
     data: {
-        userInfo: {},
         logged: false,
         takeSession: false,
         requestResult: '',
-        mode: "scaleToFill",
-        arr: [],
-        indicatorDots: true,
-        autoplay: true,
-        interval: 2000,
-        duration: 1000,
-      isFixTab: false, //是否显示悬浮tab
-      movies: [
-        { url: 'https://www.nonobank.com/Public/v6/images/Module/smallHeader/ninthYear_logo.png?v=20180608' },
-        { url: 'https://www.nonobank.com/Public/v6/images/Module/smallHeader/ninthYear_logo.png?v=20180608' },
-        { url: 'https://www.nonobank.com/Public/v6/images/Module/smallHeader/ninthYear_logo.png?v=20180608' },
-        { url: 'https://www.nonobank.com/Public/v6/images/Module/smallHeader/ninthYear_logo.png?v=20180608' }
-      ] 
+        // mode: "scaleToFill",
+        currentTab:0, //选项卡
+        banners: [
+          { url: 'https://static001.geekbang.org/resource/image/bc/39/bcc42592dd4c05d28612255c0625c439.jpg' },
+          { url: 'https://static001.geekbang.org/resource/image/0e/95/0eff41ad84353ba49c1e2d2bb755b795.jpg' },
+          { url: 'https://static001.geekbang.org/resource/image/bc/14/bca8eee56d3cad468efdfcbb5c165714.jpg' },
+          { url: 'https://static001.geekbang.org/resource/image/58/57/58fcdd4ed7a7f88d1bd0517bada69857.jpg' }
+        ],
+        isFixTab: false, //是否显示悬浮tab
+        floatTop: 193, //悬浮框高度
+        content_image_width:0,
+        contents: [],
+        pageSize:4,
+        pageNumber:1
     },
 
   onLoad: function (options) {
-    var array = this.data.arr
-    for (let i = 1; i < 3; i++) {
-      array.push("user-unlogin.png")
-    }
-    this.setData({ arr: array })
-
+    var that=this;
+    /**wx.showLoading({ //显示消息提示框  此处是提升用户体验的作用
+      title: '数据加载中',
+      icon: 'loading',
+    });*/
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          content_image_width:res.windowWidth*0.6,
+          // floatTop : 104 * res.screenWidth / 750,
+        });
+      }
+    });
     this.getScrollTop();
+    this.listTopics();
+  },
+
+  listTopics:function(type){
+    var that = this;
+    wx.request({
+      url: 'https://na.nonobank.com/bilog-pc/ithup/list/topic?typeName=' + that.data.currentTab + '&pageSize=' + that.data.pageSize + '&pageNumber=' + that.data.pageNumber, //请求接口的url
+      method: 'GET', //请求方式
+      data: {},//请求参数
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      complete() {  //请求结束后隐藏 loading 提示框
+        // wx.hideLoading();
+      },
+      success: res => {
+        if (type){ //加载更多
+          var oldData = this.data.contents;
+          for (var i = 0; i < res.data.data.length; i++) {
+            oldData.push(res.data.data[i]);
+          }
+          this.setData({
+            contents: oldData,
+          });
+        }else {
+          this.setData({
+            contents: res.data.data,
+          });
+        }
+      }
+    });
   },
 
   getScrollTop: function () {
     var that = this;
     if (wx.canIUse('getSystemInfo.success.screenWidth')) {
-      wx: wx.getSystemInfo({
-        success: function (res) {
-          rate = res.screenWidth / 750;
-          floatTop = 104 * rate;
-          that.setData({
-            scrollTop: 104 * res.screenWidth / 750,
-            scrollHeight: res.screenHeight / (res.screenWidth / 750) - 128,
-          });
-        }
-      });
+      
     }
   },
 
 
   onPageScroll: function (event) {
     var scrollTop = event.scrollTop;
-    if (scrollTop >= floatTop && !this.data.isFixTab) {
+    // console.log(scrollTop);`
+    if (scrollTop >= this.data.floatTop && !this.data.isFixTab) {
       this.setData({
         isFixTab: true,
       });
-    } else if (scrollTop < floatTop && this.data.isFixTab) {
+    } else if (scrollTop < this.data.floatTop && this.data.isFixTab) {
       this.setData({
         isFixTab: false,
       });
     }
   },
 
+  onPullDownRefresh:function(e){
+    this.setData({
+      pageNumber: 1
+    }),
+    this.listTopics();
+    wx.hideNavigationBarLoading();
+    wx.stopPullDownRefresh();
+  },
+  onReachBottom:function(e){
+      this.setData({
+        pageNumber: this.data.pageNumber+1
+      }),
+      this.listTopics(true)
+  },
+
   toSearchView: function (e) {
     wx.navigateTo({
       url: '../search/search',
     })
+  },
+
+  bannerClick:function(e){
+    console.log(e.target.dataset);
+    wx.navigateTo({
+      url: '../webview/webview?url=' + e.target.dataset.url+'&id='+e.target.dataset.index,
+    })
+  },
+
+  //点击切换
+  swichNav: function (e) {
+    var that = this;
+    if (this.data.currentTab === e.target.dataset.current) {
+      return false;
+    } else {
+      that.setData({
+        currentTab: e.target.dataset.current,
+        contents:[],
+      });
+      /**
+      wx.showLoading({ //显示消息提示框  此处是提升用户体验的作用
+        title: '数据加载中',
+        icon: 'loading',
+      });
+       */
+      this.listTopics();
+    }
+  },
+
+  toContentDetail:function(e){
+    //设置全局变量
+    getApp().globalData.currentContent = e.currentTarget.dataset.content;
+    wx.navigateTo({
+      url: '../content/content?item=' + e.currentTarget.dataset.content,
+    })
+  },
+  //滑动切换
+  swiperTab: function (e) {
+    var that = this;
+    // console.log(e.detail.current)
+    that.setData({
+      currentTab: e.detail.current
+    });
   },
 
     // 用户登录示例
