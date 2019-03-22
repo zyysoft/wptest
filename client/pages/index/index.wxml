@@ -23,7 +23,7 @@
         <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="swichNav">知识星球</view>
     </scroll-view>
 </view>
-<view wx:for="{{contents}}"  class="tab-content">
+<view wx:if="{{contents.length>=1}}" wx:for="{{contents}}" wx:key="_id" class="tab-content">
         <view class='tab-item-top;' data-index='{{index}}' data-content='{{item}}' bindtap='toContentDetail'>
           <view class='tab-item-img' >
             <image src="{{item.imageUrl}}" data-index='{{index}}' data-url="{{item.imageUrl}}" mode="aspectFit" style='width:60px;height:60px;border-radius: 30px;' />  
@@ -51,4 +51,8 @@
         <view class='tab-item-bottom;'style='white-space: nowrap;display: block;overflow: hidden;text-overflow: ellipsis;-o-text-overflow: ellipsis;text-decoration: none;'>
             {{item.contentNotes}}
         </view>
+</view>
+
+<view wx:if="{{contents.length==0}}" class="tab-content" >
+  <button style='margin-top:35px;font-size:14px;background-color:rgb(255, 255, 255);color:rgb(24, 195, 170);text-align:center;border:0.5px solid rgb(24, 195, 170);border-radius:999px'>收录 +</button>
 </view>
