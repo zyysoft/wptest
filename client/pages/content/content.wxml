@@ -22,6 +22,11 @@
             </view>
           </view>
         </view>
+
+<view wx:if="{{item.typeName=='微信公众号'}}" style='display:flex;padding-top:13px;padding-bottom:10px;justify-content: center;align-items:center;' >
+              <view style='display:inline;padding-left:18px;padding-top:6px;padding-right:18px;padding-bottom:6px;font-size:16px;border-radius:999px;color: #FFF; background: #8B7E66;' bindtap="copyTBL" data-copyData="{{item.contentSign}}">点此一键复制</view>
+</view>
+
 <view class='tab-item-bottom;'>
     {{item.contentNotes}}
 </view>

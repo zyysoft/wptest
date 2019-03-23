@@ -18,7 +18,6 @@ Page({
         ],
         isFixTab: false, //是否显示悬浮tab
         floatTop: 193, //悬浮框高度
-        content_image_width:0,
         contents: [],
         pageSize:4,
         pageNumber:1
@@ -132,9 +131,10 @@ Page({
     } else {
       that.setData({
         currentTab: e.target.dataset.current,
-        contents:[],
+        contents:[], //数据清空后会触发滚动
         pageNumber:1,
       });
+      
       /**
       wx.showLoading({ //显示消息提示框  此处是提升用户体验的作用
         title: '数据加载中',

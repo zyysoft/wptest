@@ -16,7 +16,7 @@
 </swiper>
 
 <view >
-    <scroll-view scroll-x="true" scroll-y="true" class="tab-h;{{isFixTab ? 'tab-h-fix' : ''}}" >
+    <scroll-view scroll-x="true" class="tab-h;{{isFixTab ? 'tab-h-fix' : ''}}" >
         <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">微信公众号</view>
         <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">微信小程序</view>
         <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">极客时间</view>
@@ -54,5 +54,5 @@
 </view>
 
 <view wx:if="{{contents.length==0}}" class="tab-content" >
-  <button style='margin-top:35px;font-size:14px;background-color:rgb(255, 255, 255);color:rgb(24, 195, 170);text-align:center;border:0.5px solid rgb(24, 195, 170);border-radius:999px'>收录 +</button>
+  <button style='margin-top:35px;font-size:14px;background-color:rgb(255, 255, 255);color:rgb(24, 195, 170);text-align:center;border:0.5px solid rgb(24, 195, 170);border-radius:999px;'>收录+</button>
 </view>
