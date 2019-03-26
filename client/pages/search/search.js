@@ -8,6 +8,9 @@ Page({
   */
   data: {
     inputValue: '', //搜索的内容
+    contents: [],
+    pageSize: 4,
+    pageNumber: 1
   },
 
   //搜索框文本内容显示
@@ -15,88 +18,63 @@ Page({
     this.setData({
       inputValue: event.detail.value
     })
-    console.log('bindInput' + this.data.inputValue)
   },
   /**
   * 搜索执行按钮
   */
-  query: function (event) {
+  searchBind: function (event) {
     var that = this
-    /**
-     * 提问帖子搜索API
-     * keyword string 搜索关键词 ; 这里是 this.data.inputValue
-     * start int 分页起始值 ; 这里是 0
-     */
+    if (!that.data.inputValue){
+      return ;
+    }
+    that.setData({
+      pageNumber:1
+    })
+    this.queryTopic(false,that.data.inputValue)
+  },
+  onReachBottom: function (e) {
+    var that = this
+    that.setData({
+      pageNumber: that.data.pageNumber + 1
+    }),
+      this.queryTopic(true, that.data.inputValue)
+  },
+
+  queryTopic:function(type,keyWord){
+    var that=this;
     wx.request({
-      url: 'https://localhost/proj_online_class/server/public/index.php/forum/forum/get_issue_search/' + this.data.inputValue + /0/,
+      url: config.service.searchTopicUrl,
       data: {
-        inputValue: this.data.inputValue
+        keyWord: keyWord,
+        pageSize: this.data.pageSize,
+        pageNumber: this.data.pageNumber
       },
       method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
       success: function (res) {
-        console.log(res.data)
-        var searchData = res.data
-        that.setData({
-          searchData
-        })
-
-        /**
-         * 把 从get_issue_searchAPI 
-         * 获取 提问帖子搜索 的数据 设置缓存
-         */
-        wx.setStorage({
-          key: 'searchLists',
-          data: {
-            searchLists: res.data
+        if(type){ //加载更多
+          var oldData = that.data.contents;
+          for (var i = 0; i < res.data.data.length; i++) {
+            oldData.push(res.data.data[i]);
           }
-        })
-
-        /**
-         * 设置 模糊搜索
-         */
-        if (!that.data.inputValue) {
-          //没有搜索词 友情提示
-          wx.showToast({
-            title: '请重新输入',
-            image: '../../picture/tear.png',
-            duration: 2000,
-          })
-        } else if (searchData.search.length == 0) {
-          //搜索词不存在 友情提示
-          wx.showToast({
-            title: '关键词不存在',
-            image: '../../picture/tear.png',
-            duration: 2000,
-          })
-        } else {
-          //提取题目关键字 与搜索词进行匹配
-          var searchIndex = searchData.search.length
-          var d = 0;
-          for (var i = 0; i <= searchIndex - 1; i++) {
-
-            var searchTitle = searchData.search[d].title
-            console.log(searchTitle)
-            d = d + 1;
-
-            for (var x = 0; x <= searchTitle.length; x++) {
-              for (var y = 0; y <= searchTitle.length; y++) {
-                var keyWord = searchTitle.substring(x, y);
-                console.log(keyWord)
-              }
-            }
-
-            /**
-             * 根据关键词 跳转到 search搜索页面
-             */
-            wx.navigateTo({
-              url: '../search/search',
-            })
-          }
+          that.setData({
+            contents: oldData,
+          });
+        }else{
+          that.setData({
+            contents: res.data.data,
+          });
         }
-
-
-
       }
     })
-  }
+  },
+  toContentDetail: function (e) {
+    //设置全局变量
+    getApp().globalData.currentContent = e.currentTarget.dataset.content;
+    wx.navigateTo({
+      url: '../content/content?item=' + e.currentTarget.dataset.content,
+    })
+  },
 })

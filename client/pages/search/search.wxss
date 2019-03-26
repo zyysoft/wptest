@@ -1,7 +1,7 @@
 /* 搜索框样式 */
 .search
 {
-  width:90%;
+  width:100%;
   justify-content:'flex-start';
 }
 .search_arr {
@@ -15,7 +15,7 @@
   margin: 10rpx 10rpx 10rpx 10rpx;
   position: absolute;
   left:25rpx;
-  top: 13px;
+  top: 14px;
   z-index: 2;
   width: 15px;
   height: 15px;
@@ -24,12 +24,17 @@
 .search_arr input{
   margin-left: 60rpx;
   border-radius: 999px;
-  height: 60rpx;
-  background: #F2F2F2;
+  height: 66rpx;
+  background: #FFFF;
 }
 /* 搜索框提示文字样式 */
 .search input{
-  font-size:27rpx;
+  font-size:15px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding-left:35rpx; 
 }
+.tab-content{display:flex;flex-direction:column;background:#FFF;border-bottom:.5px solid rgb(242, 242, 242);font:300 15px/1.4 PingFang SC, Helvetica Neue, Helvetica, Microsoft YaHei, Arial, sans-serif;height: 110px;}
+.tab-item-top{display:flex;flex-direction:row;padding-left: 13px;padding-top:8px;}
+.tab-item-img{justify-content:left;}
+.tab-item-text{display:flex;padding-left:13px;flex-direction:column;justify-content:start;}
+.tab-item-bottom{display:flex;flex-direction:row;padding-left: 13px;margin-top:4px;font-size:14px;color: #888}

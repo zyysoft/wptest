@@ -46,9 +46,13 @@ Page({
     // console.log(that.data.pageSize);
     // console.log(that.data.pageNumber);
     wx.request({
-      url: config.service.listTopicsUrl+'?typeName=' + that.data.currentTab + '&pageSize=' + that.data.pageSize + '&pageNumber=' + that.data.pageNumber, //请求接口的url
+      url: config.service.listTopicsUrl, //请求接口的url
       method: 'GET', //请求方式
-      data: {},//请求参数
+      data: {
+        typeName: that.data.currentTab,
+        pageSize: that.data.pageSize,
+        pageNumber: that.data.pageNumber
+      },//请求参数
       header: {
         'content-type': 'application/json' // 默认值
       },

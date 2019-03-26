@@ -2,7 +2,7 @@
 <view calss='search'>
     <view class="df search_arr">
         <icon class="searchcion" size='15' type='search'></icon>
-        <input placeholder="搜索ITHup" bindfocus="toSearchView"/>
+        <input placeholder="搜索ITHup" bindtap="toSearchView" disabled='{true}'/>
     </view>
 </view>
 <swiper class="banner" indicator-dots="true" indicator-active-color="#D6BA8C"

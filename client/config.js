@@ -3,13 +3,14 @@
  */
 
 // API 
-var host = 'https://na.nonobank.com/bilog-pc';
+var host = 'https://na.nonobank.com/bilog-pc/ithup';
 
 var config = {
     // 下面的地址配合云端 Demo 工作
     service: {
         host,
-        listTopicsUrl: `${host}/ithup/list/topic`,
+        listTopicsUrl: `${host}/list/topic`,
+        searchTopicUrl: `${host}/query/topic`,
         // 登录地址，用于建立会话
         loginUrl: `${host}/weapp/login`,
         // 测试的请求地址，用于测试会话

@@ -1,4 +1,42 @@
-<view class='search'>
-            <input type='text' placeholder='ITHup' confirm-type='search' value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
-            <image class="" src='./search.png' bindtap='query'></image>
+<view style='display:flex;flex-direction:column'>
+  <view calss='search' style='width:100%;'>
+      <view class="df search_arr">
+          <icon class="searchcion" size='15' type='search'></icon>
+          <input placeholder="搜索ITHup"value="{{inputValue}}" bindinput='inputBind'  bindconfirm='searchBind' confirm-type='search' focus='{true}'/>
+      </view>
+  </view>
+  <view wx:if="{{contents.length>=1}}" wx:for="{{contents}}" wx:key="_id" class="tab-content" >
+          <view class='tab-item-top;' data-index='{{index}}' data-content='{{item}}' bindtap='toContentDetail'>
+            <view class='tab-item-img' >
+              <image src="{{item.imageUrl}}" data-index='{{index}}' data-url="{{item.imageUrl}}" mode="aspectFit" style='width:60px;height:60px;border-radius: 30px;' />  
+            </view>
+            <view class='tab-item-text;'> 
+              <!--
+              <view style='display:inline;padding:2px 4px;font-size:10px;border-radius:2px;color: rgb(214, 186, 140); background: rgba(214, 186, 140, 0.2);'>
+              -->
+              <view style='display:inline;padding:2px 4px;font-size:10px;color: rgb(214, 186, 140);'>
+                {{item.typeName}}
+              </view>
+              <view style='font-size:16px;font-weight:400;margin-top:4px;'>
+                {{item.contentName}}
+              </view>
+              <view style='display:flex;flex-direction:row;margin-top:4px;font-size:12px;height:18px;'>
+                  <view style='color:rgb(170, 170, 170);'>
+                    {{item.contentSign}}
+                  </view>
+                  <view style='margin-left: 13px;color:rgb(242, 129, 129);border-color:rgb(242, 129, 129);border:.5px solid rgb(214, 186, 140);border-radius:4px;'>
+                    {{item.contentCnt}}
+                  </view>
+              </view>
+            </view>
+          </view>
+          <view class='tab-item-bottom;'style='white-space: nowrap;display: block;overflow: hidden;text-overflow: ellipsis;-o-text-overflow: ellipsis;text-decoration: none;'>
+              {{item.contentNotes}}
+          </view>
+  </view>
+
+  <view wx:if="{{contents.length==0}}" class="tab-content" >
+    <button style='margin-top:35px;font-size:14px;background-color:rgb(255, 255, 255);color:rgb(24, 195, 170);text-align:center;border:0.5px solid rgb(24, 195, 170);border-radius:999px;'>收录+</button>
+  </view>
+
 </view>

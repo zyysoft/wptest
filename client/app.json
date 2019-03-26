@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/search/search",
     "pages/webview/webview",
-    "pages/content/content"
+    "pages/content/content",
+    "pages/addCgi/addCgi"
   ],
   "window":{
     "backgroundColor":"#FFFFFF",
@@ -23,7 +24,7 @@
           "selectedColor": "#09BB07"
         },
         {
-          "pagePath": "pages/search/search",
+          "pagePath": "pages/addCgi/addCgi",
           "text": "活动"
         }
       ]
