@@ -3,7 +3,7 @@
  */
 
 // API 
-var host = 'https://na.nonobank.com/bilog-pc/ithup';
+var host = 'https://aaaa';
 
 var config = {
     // 下面的地址配合云端 Demo 工作
